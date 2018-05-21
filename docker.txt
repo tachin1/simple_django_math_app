@@ -1,0 +1,74 @@
+Docker cheatsheet:
+
+Download and execute docker image in interactive mode
+	docker run -it centos
+
+run a container and give it a custom name
+	docker run -it --name custom_name centos
+	
+list running docker containers
+	docker ps
+
+list all docker containers
+    docker ps -a
+    
+Remove exited docker containers from list
+    docker rm $(docker ps -a -f status=exited -q
+    
+Automatically remove a container after it exits
+    docker run -it --name -rm customname centos:7
+	
+Run a command in a running docker image
+	docker container exec -t $dockerid $command
+	
+execute command in docker
+	docker run centos:7 bash
+	
+mount a directory inside a container
+    docker run -it --name test_container --rm -v /full/path/to/dir centos:7 bash
+
+get ip with docker inspect
+
+BUILDING AN IMAGE
+
+Create a file called "Dockerfile"
+	insert commands into Dockerfile
+docker build -t my-new-image-name .
+
+
+
+###################################
+requirements for basic django app
+yum install epel release
+yum update
+yum install python2-pip
+yum install vim-enhanced
+yum instlal mod_wsgi
+pip install --upgrade pip==9.0.3 setuptools==24.2
+pip install pymongo
+pip install django
+pip install django-rest-framework
+
+
+
+docker run -it --name djangotest --rm -p 8000:8000 -v /var/www/logme:/var/www django python /var/www/logme/manage.py runserver 0.0.0.0:8000 
+
+
+/var/www/math_api_app
+
+
+
+#############################################
+DOCKERFILE
+
+
+
+FROM centos:7
+
+RUN yum -y install epel-release && yum -y update && yum -y install python2-pip && yum -y install vim-enhanced && yum -y install mod_wsgi && pip install --upgrade pip==9.0.3 setuptools==24.2 && pip install pymongo && pip install django && pip install django-rest-framework
+
+COPY math/ /var/www/
+copy math_api.conf  /etc/httpd/conf.d/
+EXPOSE 81
+ENTRYPOINT ["apachectl"]
+CMD ["-DFOREGROUND"]
